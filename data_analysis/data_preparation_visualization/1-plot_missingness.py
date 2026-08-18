@@ -2,7 +2,6 @@
 """
 Visualize missing values in a DataFrame.
 """
-
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -13,9 +12,11 @@ def plot_missingness(df):
     """
     plt.figure(figsize=(12, 8))
 
-    rows, cols = np.where(df.isnull())
+    missing = df.isnull()
 
-    plt.scatter(rows, cols, marker='|')
+    for col in range(len(df.columns)):
+        rows = np.where(missing.iloc[:, col])[0]
+        plt.scatter(rows, [col] * len(rows), marker='|')
 
     plt.yticks(np.arange(len(df.columns)), df.columns)
 
