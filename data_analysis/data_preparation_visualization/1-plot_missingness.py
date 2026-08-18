@@ -17,12 +17,12 @@ def plot_missingness(df):
     for col in range(len(df.columns)):
         rows = np.where(missing.iloc[:, col])[0]
         if len(rows) > 0:
-            plt.scatter(rows, [col] * len(rows), marker='|', s=100)
+            plt.scatter(rows, [col] * len(rows), marker='|', s=100, color='blue')
 
     plt.yticks(np.arange(len(df.columns)), df.columns)
-    plt.gca().invert_yaxis()
     plt.xlabel('Row Index')
     plt.ylabel('Columns')
     plt.title('Missing Values Visualization')
+    plt.gca().invert_yaxis()
     plt.tight_layout()
     plt.show()
