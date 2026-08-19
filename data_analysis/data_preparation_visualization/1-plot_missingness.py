@@ -11,11 +11,12 @@ def plot_missingness(df):
     Visualizes missing values in a DataFrame.
     """
     plt.figure(figsize=(12, 8))
-    
+
     rows, cols = np.where(df.isnull())
-    plt.scatter(cols, rows, marker='|', s=100, color='blue')
-    plt.xticks(np.arange(len(df.columns)), df.columns)
+    plt.scatter(rows, cols, marker='|', s=100)
+    plt.yticks(np.arange(len(df.columns)), df.columns)
     plt.gca().invert_yaxis()
     plt.title('Missingness Plot')
+
     plt.tight_layout()
     plt.show()
