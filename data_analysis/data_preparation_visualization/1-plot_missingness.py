@@ -14,8 +14,8 @@ def plot_missingness(df):
 
     rows, cols = np.where(df.isnull())
     plt.scatter(rows, cols, marker='|')
-
     plt.yticks(np.arange(len(df.columns)), df.columns)
+    plt.gca().invert_yaxis()
 
     plt.tight_layout()
     plt.show()
