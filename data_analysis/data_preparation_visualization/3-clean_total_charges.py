@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
-"""
-Handle missing values in the TotalCharges column.
-"""
+"""Handle missing values in TotalCharges."""
 
 
 def clean_total_charges(df, method='drop'):
-    """
-    Handle missing TotalCharges using the specified method.
-    """
+    """Handle missing TotalCharges using the specified method."""
+    df = df.copy()
+
     if method == 'drop':
         return df.dropna(subset=['TotalCharges'])
 
