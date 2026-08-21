@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Visualize missing values in a DataFrame.
+Plot missing values in a DataFrame.
 """
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,16 +8,18 @@ import numpy as np
 
 def plot_missingness(df):
     """
-    Visualizes missing values in a DataFrame.
+    Plot the missing values of a DataFrame.
     """
     plt.figure(figsize=(12, 8))
 
-    rows, cols = np.where(df.isnull())
-    plt.scatter(rows, cols, marker='|')
-    plt.yticks(np.arange(len(df.columns)), df.columns)
-    plt.gca().invert_yaxis()
-    plt.title('Missingness Plot')
-    plt.xlabel('Row Index')
+    for i, column in enumerate(df.columns):
+        missing = df[column].isna()
+        rows = np.where(missing)[0]
+
+        plt.plot(rows, [i] * len(rows), '|')
+
+    plt.yticks(range(len(df.columns)), df.columns)
+    plt.title("Missingness Plot")
 
     plt.tight_layout()
     plt.show()
