@@ -17,27 +17,37 @@ def plot_churn_distribution(df):
     """
     plt.figure(figsize=(12, 8))
     
-    # Get value counts and create bar plot
+    # Get value counts and ensure consistent order
     churn_counts = df['Churn'].value_counts()
     
-    # Create bar plot with specific colors
-    colors = ['skyblue' if label == 'No' else 'salmon' for label in churn_counts.index]
-    bars = plt.bar(churn_counts.index, churn_counts.values, color=colors)
+    # Reindex to ensure 'No' comes first if it exists
+    if 'No' in churn_counts.index and 'Yes' in churn_counts.index:
+        churn_counts = churn_counts[['No', 'Yes']]
     
-    # Customize the plot
-    plt.title('Churn Distribution', fontsize=16, pad=20)
-    plt.xlabel('Churn', fontsize=12)
-    plt.ylabel('Count', fontsize=12)
+    # Set colors
+    colors = []
+    for label in churn_counts.index:
+        if label == 'No':
+            colors.append('skyblue')
+        elif label == 'Yes':
+            colors.append('salmon')
+        else:
+            colors.append('gray')
+    
+    # Create bar plot
+    bars = plt.bar(churn_counts.index, churn_counts.values, color=colors)
     
     # Add value labels on top of bars
     for bar in bars:
         height = bar.get_height()
         plt.text(bar.get_x() + bar.get_width()/2., height,
-                 f'{int(height)}',
-                 ha='center', va='bottom', fontsize=11)
+                 str(int(height)),
+                 ha='center', va='bottom')
     
-    # Set y-axis to show full numbers
-    plt.ticklabel_format(style='plain', axis='y')
+    # Set labels and title
+    plt.xlabel('Churn')
+    plt.ylabel('Count')
+    plt.title('Churn Distribution')
     
     # Display the plot
     plt.tight_layout()
