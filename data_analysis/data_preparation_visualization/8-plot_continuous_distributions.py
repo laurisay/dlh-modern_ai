@@ -1,4 +1,4 @@
-```python
+```python id="uknhcy"
 #!/usr/bin/env python3
 """
 Module for plotting continuous numerical distributions.
@@ -10,18 +10,14 @@ from scipy import stats
 
 def plot_continuous_distributions(df, columns_to_plot=None):
     """
-    Plot distributions of continuous numerical features.
-
-    Each selected column is displayed using a histogram with a KDE
-    on the left and a horizontal boxplot on the right.
+    Visualize the distributions of continuous numerical features.
 
     Args:
         df: pandas DataFrame containing the data.
-        columns_to_plot: Optional list of columns to plot. If None,
-            continuous numerical columns are selected automatically.
+        columns_to_plot: Optional list of continuous numeric columns.
 
     Returns:
-        None
+        None.
     """
     if columns_to_plot is None:
         columns_to_plot = [
