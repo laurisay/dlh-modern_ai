@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Plot continuous feature distributions.
+Plot continuous distributions.
 """
 import matplotlib.pyplot as plt
 import numpy as np
@@ -9,11 +9,11 @@ from scipy import stats
 
 def plot_continuous_distributions(df, columns_to_plot=None):
     """
-    Plot histograms with KDE and boxplots for continuous features.
+    Plot histograms with KDE and boxplots for continuous columns.
     """
     if columns_to_plot is None:
         columns_to_plot = df.select_dtypes(
-            include=np.number
+            include=['int64', 'float64']
         ).columns.tolist()
 
     n_cols = len(columns_to_plot)
@@ -36,7 +36,7 @@ def plot_continuous_distributions(df, columns_to_plot=None):
         )
 
         kde = stats.gaussian_kde(data)
-        x = np.linspace(data.min(), data.max(), 1000)
+        x = np.linspace(data.min(), data.max(), 100)
         axes[i, 0].plot(
             x,
             kde(x),
