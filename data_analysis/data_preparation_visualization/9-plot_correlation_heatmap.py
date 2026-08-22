@@ -5,37 +5,28 @@ Module for plotting a correlation heatmap.
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+
 def plot_correlation_heatmap(df):
-"""
-Visualize correlations between continuous numerical features.
+    """
+    Visualize correlations between continuous numerical features.
+    """
+    continuous_columns = [
+        column for column in df.select_dtypes(
+            include='number'
+        ).columns
+        if df[column].nunique() > 2
+    ]
 
-```
-Args:
-    df: pandas DataFrame containing the data.
+    correlation_matrix = df[continuous_columns].corr()
 
-Returns:
-    None.
-"""
-continuous_columns = [
-    column for column in df.select_dtypes(
-        include='number'
-    ).columns
-    if df[column].nunique() > 2
-]
+    plt.figure(figsize=(6, 5))
 
-correlation_matrix = df[continuous_columns].corr()
+    sns.heatmap(
+        correlation_matrix,
+        annot=True,
+        cmap='coolwarm',
+        vmin=-1,
+        vmax=1
+    )
 
-plt.figure(figsize=(6, 5))
-
-sns.heatmap(
-    correlation_matrix,
-    annot=True,
-    cmap='coolwarm',
-    vmin=-1,
-    vmax=1
-)
-
-plt.title("Correlation Matrix")
-plt.show()
-```
-
+    plt.show()
