@@ -41,8 +41,9 @@ def encode_features(df):
     binary_cols = [
         'Partner', 'Dependents', 'PaperlessBilling', 'SeniorCitizen'
     ]
-    binary_oe = preprocessing.OrdinalEncoder()
-    df[binary_cols] = binary_oe.fit_transform(df[binary_cols])
+    binary_oe = preprocessing.OrdinalEncoder(categories=[['No', 'Yes']])
+    for col in binary_cols:
+        df[col] = binary_oe.fit_transform(df[[col]])
     df[binary_cols] = df[binary_cols].astype(int)
 
     tenure_oe = preprocessing.OrdinalEncoder()
