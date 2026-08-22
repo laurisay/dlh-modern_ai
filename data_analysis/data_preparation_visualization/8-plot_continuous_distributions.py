@@ -1,64 +1,62 @@
-```python id="uknhcy"
 #!/usr/bin/env python3
 """
-Module for plotting continuous numerical distributions.
+Plot continuous numerical distributions.
 """
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import stats
 
-
 def plot_continuous_distributions(df, columns_to_plot=None):
-    """
-    Visualize the distributions of continuous numerical features.
+"""
+Visualize the distributions of continuous numerical features.
 
-    Args:
-        df: pandas DataFrame containing the data.
-        columns_to_plot: Optional list of continuous numeric columns.
+```
+Args:
+    df: pandas DataFrame containing the data.
+    columns_to_plot: Optional list of continuous numerical columns.
 
-    Returns:
-        None.
-    """
-    if columns_to_plot is None:
-        columns_to_plot = [
-            column for column in df.select_dtypes(
-                include=np.number
-            ).columns
-            if df[column].nunique() > 2
-        ]
+Returns:
+    None.
+"""
+if columns_to_plot is None:
+    columns_to_plot = [
+        col for col in df.select_dtypes(
+            include=np.number
+        ).columns
+        if df[col].nunique() > 2
+    ]
 
-    n_cols = len(columns_to_plot)
-    fig, axes = plt.subplots(n_cols, 2, figsize=(10, 3 * n_cols))
+n_cols = len(columns_to_plot)
+fig, axes = plt.subplots(n_cols, 2, figsize=(10, 3 * n_cols))
 
-    if n_cols == 1:
-        axes = axes.reshape(1, -1)
+if n_cols == 1:
+    axes = axes.reshape(1, -1)
 
-    for i, column in enumerate(columns_to_plot):
-        data = df[column].dropna()
+for i, column in enumerate(columns_to_plot):
+    data = df[column].dropna()
 
-        axes[i, 0].hist(
-            data,
-            bins=30,
-            density=True,
-            alpha=0.7,
-            edgecolor='black'
-        )
+    axes[i, 0].hist(
+        data,
+        bins=30,
+        density=True,
+        alpha=0.7,
+        edgecolor='black'
+    )
 
-        kde = stats.gaussian_kde(data)
-        x_values = np.linspace(data.min(), data.max(), 100)
-        axes[i, 0].plot(
-            x_values,
-            kde(x_values),
-            color='red',
-            linestyle='--'
-        )
-        axes[i, 0].set_title(f"{column} Histogram + KDE")
+    kde = stats.gaussian_kde(data)
+    x = np.linspace(data.min(), data.max(), 100)
+    axes[i, 0].plot(x, kde(x), 'r--')
+    axes[i, 0].set_title(
+        f"{column} Histogram + KDE"
+    )
 
-        axes[i, 1].boxplot(data, vert=False)
-        axes[i, 1].set_title(f"{column} Boxplot")
+    axes[i, 1].boxplot(data, vert=False)
+    axes[i, 1].set_title(
+        f"{column} Boxplot"
+    )
 
-    plt.tight_layout()
-    plt.savefig("Task_8.png")
-    plt.show()
+plt.tight_layout()
+plt.savefig("Task_8.png")
+plt.show()
 ```
 
