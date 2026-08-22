@@ -12,11 +12,9 @@ def plot_continuous_distributions(df, columns_to_plot=None):
     Plot histograms with KDE and boxplots for continuous features.
     """
     if columns_to_plot is None:
-        numeric_columns = df.select_dtypes(include=np.number).columns
-        columns_to_plot = [
-            column for column in numeric_columns
-            if df[column].nunique() > 2
-        ]
+        columns_to_plot = df.select_dtypes(
+            include=np.number
+        ).columns.tolist()
 
     n_cols = len(columns_to_plot)
     fig, axes = plt.subplots(
@@ -46,10 +44,17 @@ def plot_continuous_distributions(df, columns_to_plot=None):
             linestyle='--'
         )
 
-        axes[i, 0].set_title(f'{column} Histogram + KDE')
+        axes[i, 0].set_title(
+            f'{column} Histogram + KDE'
+        )
 
-        axes[i, 1].boxplot(data, vert=False)
-        axes[i, 1].set_title(f'{column} Boxplot')
+        axes[i, 1].boxplot(
+            data,
+            vert=False
+        )
+        axes[i, 1].set_title(
+            f'{column} Boxplot'
+        )
 
     plt.tight_layout()
     plt.savefig("Task_8.png")
