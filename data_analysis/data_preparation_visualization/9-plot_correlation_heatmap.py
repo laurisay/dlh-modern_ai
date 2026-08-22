@@ -25,11 +25,9 @@ def plot_correlation_heatmap(df):
     """
     plt.figure(figsize=(6, 5))
 
-    corr = df.select_dtypes(include='number').corr()
+    corr = df.corr(numeric_only=True)
 
     sns.heatmap(corr, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
 
     plt.title("Correlation Matrix")
-    plt.tight_layout()
-    plt.savefig("Task_9.png")
     plt.show()
