@@ -1,7 +1,7 @@
 ```python
 #!/usr/bin/env python3
 """
-Plot distributions of continuous numerical features.
+Module for plotting continuous numerical distributions.
 """
 import matplotlib.pyplot as plt
 import numpy as np
@@ -10,19 +10,26 @@ from scipy import stats
 
 def plot_continuous_distributions(df, columns_to_plot=None):
     """
-    Visualize continuous numerical columns using histograms with KDE
-    and box plots.
+    Plot distributions of continuous numerical features.
+
+    Each selected column is displayed using a histogram with a KDE
+    on the left and a horizontal boxplot on the right.
 
     Args:
-        df: pandas DataFrame.
-        columns_to_plot: Optional list of numeric columns to plot.
-                         If None, all numeric columns are selected.
+        df: pandas DataFrame containing the data.
+        columns_to_plot: Optional list of columns to plot. If None,
+            continuous numerical columns are selected automatically.
 
     Returns:
         None
     """
     if columns_to_plot is None:
-        columns_to_plot = df.select_dtypes(include=np.number).columns.tolist()
+        columns_to_plot = [
+            column for column in df.select_dtypes(
+                include=np.number
+            ).columns
+            if df[column].nunique() > 2
+        ]
 
     n_cols = len(columns_to_plot)
     fig, axes = plt.subplots(n_cols, 2, figsize=(10, 3 * n_cols))
@@ -33,7 +40,6 @@ def plot_continuous_distributions(df, columns_to_plot=None):
     for i, column in enumerate(columns_to_plot):
         data = df[column].dropna()
 
-        # Histogram + KDE
         axes[i, 0].hist(
             data,
             bins=30,
@@ -43,12 +49,15 @@ def plot_continuous_distributions(df, columns_to_plot=None):
         )
 
         kde = stats.gaussian_kde(data)
-        x = np.linspace(data.min(), data.max(), 100)
-        axes[i, 0].plot(x, kde(x), color='red', linestyle='--')
-
+        x_values = np.linspace(data.min(), data.max(), 100)
+        axes[i, 0].plot(
+            x_values,
+            kde(x_values),
+            color='red',
+            linestyle='--'
+        )
         axes[i, 0].set_title(f"{column} Histogram + KDE")
 
-        # Box plot
         axes[i, 1].boxplot(data, vert=False)
         axes[i, 1].set_title(f"{column} Boxplot")
 
