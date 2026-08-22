@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """
-Module for plotting a correlation heatmap.
+This module provides a function to visualize the pairwise
+correlations between continuous numeric features of a pandas
+DataFrame using an annotated seaborn heatmap.
 """
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -8,18 +10,26 @@ import matplotlib.pyplot as plt
 
 def plot_correlation_heatmap(df):
     """
-    Visualize correlations between continuous numerical features.
+    Visualizes correlations between continuous numeric features.
+
+    Computes the pairwise correlation matrix of the numeric
+    columns of the DataFrame and displays it as an annotated
+    heatmap using the coolwarm colormap, with the color scale
+    fixed between -1 and 1.
+
+    Args:
+        df (pandas.DataFrame): The input DataFrame.
+
+    Returns:
+        None
     """
     plt.figure(figsize=(6, 5))
 
-    correlation_matrix = df.corr(numeric_only=True)
+    corr = df.select_dtypes(include='number').corr()
 
-    sns.heatmap(
-        correlation_matrix,
-        annot=True,
-        cmap='coolwarm',
-        vmin=-1,
-        vmax=1
-    )
+    sns.heatmap(corr, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
 
+    plt.title("Correlation Matrix")
+    plt.tight_layout()
+    plt.savefig("Task_9.png")
     plt.show()
