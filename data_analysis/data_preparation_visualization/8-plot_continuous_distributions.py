@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """
+This module provides a function to visualize the distributions
+of continuous numerical features in a pandas DataFrame using
+histograms with KDE curves and box plots.
 """
 import matplotlib.pyplot as plt
 import numpy as np
@@ -8,6 +11,19 @@ from scipy import stats
 
 def plot_continuous_distributions(df, columns_to_plot=None):
     """
+    Visualizes the distributions of continuous numerical features.
+
+    For each selected column, generates a histogram with a KDE
+    overlay on the left and a corresponding box plot on the right.
+
+    Args:
+        df (pandas.DataFrame): The input DataFrame.
+        columns_to_plot (list, optional): List of continuous numeric
+            column names to plot. If None, all numeric columns in
+            the DataFrame are selected.
+
+    Returns:
+        None
     """
     if columns_to_plot is None:
         numeric_df = df.select_dtypes(include=[np.number])
