@@ -15,6 +15,6 @@ def draw(clf, feature_names, class_names):
     Returns:
         None. Prints a readable text representation of the tree structure.
     """
-    tree_rules = tree.export_text(clf, feature_names=feature_names,
-                                   class_names=class_names)
+    tree_rules = tree.export_text(
+        clf, feature_names=feature_names, class_names=class_names)
     print(tree_rules)
